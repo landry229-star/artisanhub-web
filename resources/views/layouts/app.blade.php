@@ -6,6 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="theme-color" content="#C4622D">
     <link rel="manifest" href="{{ asset('manifest.webmanifest') }}">
+    <link rel="apple-touch-icon" href="{{ asset('icons/icon-192.png') }}">
 
     {{-- ── SEO : titre, description, canonical ────────────────────────────── --}}
     <title>@yield('title', 'ArtisanHub') — Plateforme Artisans Bénin</title>
@@ -34,7 +35,7 @@
     @stack('head')
     <script>
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => navigator.serviceWorker.register('{{ asset('sw.js') }}'));
+            window.addEventListener('load', () => navigator.serviceWorker.register('{{ asset('sw.js') }}', { scope: '/' }));
         }
     </script>
     <style>

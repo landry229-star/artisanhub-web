@@ -1,17 +1,28 @@
 {
-  "name": "ArtisanHub",
+  "name": "ArtisanHub - Artisans du Bénin",
   "short_name": "ArtisanHub",
   "description": "Plateforme de mise en relation entre clients et artisans au Bénin.",
+  "id": "/",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#FDFAF7",
   "theme_color": "#C4622D",
-  "lang": "fr",
+  "lang": "fr-FR",
+  "categories": ["business", "shopping"],
   "icons": [
     {
-      "src": "/images/hero-artisans.png",
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
