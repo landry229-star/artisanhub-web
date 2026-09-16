@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>ArtisanHub - Guide de déploiement sur Render</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.5; color: #172033; margin: 28px; }
+    h1 { color: #123b68; font-size: 28px; }
+    h2 { color: #123b68; border-bottom: 1px solid #ccd6e0; padding-bottom: 5px; margin-top: 28px; }
+    h3 { color: #245b8f; margin-top: 20px; }
+    p, li { font-size: 13px; }
+    li { margin-bottom: 6px; }
+    code, pre { font-family: "Courier New", monospace; }
+    pre { background: #f2f5f8; border: 1px solid #d7dee6; border-radius: 6px; padding: 12px; white-space: pre-wrap; font-size: 11px; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+    th, td { border: 1px solid #cbd5df; padding: 7px; vertical-align: top; font-size: 11px; }
+    th { background: #eaf1f7; text-align: left; }
+    .warning { background: #fff4db; border-left: 4px solid #d99000; padding: 10px; }
+    .success { background: #e8f6ed; border-left: 4px solid #2d8a4d; padding: 10px; }
+    .small { color: #5d6875; font-size: 11px; }
+    a { color: #145da0; }
+  </style>
+</head>
+<body>
+  <h1>ArtisanHub — Guide détaillé de déploiement sur Render</h1>
+  <p class="small">Document technique | Laravel 12, PHP 8.2, Docker, PostgreSQL, worker et scheduler Render</p>
+
+  <div class="warning">
+    <strong>Sécurité :</strong> ne jamais mettre une clé API, un mot de passe, un fichier <code>.env</code> ou une clé privée dans GitHub. Les secrets doivent être saisis uniquement dans Render.
+  </div>
+
+  <h2>1. Pré-requis</h2>
+  <ul>
+    <li>Un compte GitHub contenant le projet ArtisanHub.</li>
+    <li>Un compte Render : <a href="https://dashboard.render.com">dashboard.render.com</a>.</li>
+    <li>Une branche <code>main</code> contenant <code>render.yaml</code>, <code>Dockerfile</code> et <code>deploy/docker-entrypoint.sh</code>.</li>
+    <li>Les accès FedaPay, SMTP et S3/R2 si ces services sont utilisés.</li>
+    <li>Une clé d’application Laravel générée avec PHP localement.</li>
+  </ul>
+
+  <h2>2. Préparer le dépôt Git</h2>
+  <pre>cd /home/landry/artisanhub.worktrees/greeting-in-french
+git status
+git remote add origin https://github.com/TON_COMPTE/TON_REPO.git
+git push -u origin main</pre>
+  <p>Si le remote existe déjà :</p>
+  <pre>git remote -v
+git push -u origin main</pre>
+  <p>Vérifier que <code>.env</code>, <code>vendor</code>, <code>node_modules</code> et <code>public/build</code> ne sont pas suivis :</p>
+  <pre>git check-ignore -v .env vendor node_modules public/build</pre>
+
+  <h2>3. Créer le Blueprint Render</h2>
+  <ol>
+    <li>Ouvrir <a href="https://dashboard.render.com">Render Dashboard</a>.</li>
+    <li>Cliquer sur <strong>New</strong>, puis <strong>Blueprint</strong>.</li>
+    <li>Connecter GitHub et sélectionner le dépôt ArtisanHub.</li>
+    <li>Sélectionner la branche <code>main</code>.</li>
+    <li>Render détecte le fichier <code>render.yaml</code>.</li>
+    <li>Vérifier les services proposés : <code>artisanhub-web</code>, <code>artisanhub-worker</code>, <code>artisan-scheduler</code> et <code>artisanhub-db</code>.</li>
+    <li>Cliquer sur <strong>Apply</strong>.</li>
+  </ol>
+  <p>Le web service utilise le <code>Dockerfile</code>. Le worker exécute la queue Laravel et le cron exécute le scheduler chaque minute.</p>
+
+  <h2>4. Générer la clé APP_KEY</h2>
+  <pre>cd /home/landry/artisanhub.worktrees/greeting-in-french
+php artisan key:generate --show</pre>
+  <p>Copier toute la valeur affichée, généralement sous la forme <code>base64:...</code>. Ne pas utiliser une clé différente pour le worker.</p>
+
+  <h2>5. Configurer les variables Render</h2>
+  <p>Dans le service <code>artisanhub-web</code> : <strong>Environment → Add Environment Variable</strong>.</p>
+  <table>
+    <tr><th>Variable</th><th>Valeur à mettre</th><th>Remarque</th></tr>
+    <tr><td>APP_ENV</td><td>production</td><td>Valeur fixe.</td></tr>
+    <tr><td>APP_DEBUG</td><td>false</td><td>Ne jamais activer en production.</td></tr>
+    <tr><td>APP_KEY</td><td>base64:...</td><td>Clé générée avec Artisan.</td></tr>
+    <tr><td>APP_URL</td><td>https://artisanhub-web.onrender.com</td><td>Remplacer par l’URL Render réelle.</td></tr>
+    <tr><td>APP_LOCALE</td><td>fr</td><td>Langue principale.</td></tr>
+    <tr><td>APP_FALLBACK_LOCALE</td><td>fr</td><td>Langue de secours.</td></tr>
+    <tr><td>LOG_CHANNEL</td><td>stderr</td><td>Permet de lire les logs dans Render.</td></tr>
+    <tr><td>LOG_LEVEL</td><td>warning</td><td>Réduire le bruit en production.</td></tr>
+    <tr><td>DB_CONNECTION</td><td>pgsql</td><td>La base Render est PostgreSQL.</td></tr>
+    <tr><td>QUEUE_CONNECTION</td><td>database</td><td>Compatible avec la table jobs.</td></tr>
+    <tr><td>SESSION_DRIVER</td><td>database</td><td>Sessions persistantes.</td></tr>
+    <tr><td>CACHE_STORE</td><td>database</td><td>Cache persistant via PostgreSQL.</td></tr>
+  </table>
+  <p>Les variables <code>DB_HOST</code>, <code>DB_PORT</code>, <code>DB_DATABASE</code>, <code>DB_USERNAME</code> et <code>DB_PASSWORD</code> sont normalement injectées automatiquement par le blueprint depuis <code>artisanhub-db</code>.</p>
+
+  <h2>6. Configurer FedaPay</h2>
+  <ol>
+    <li>Créer ou ouvrir un compte sur <a href="https://dashboard.fedapay.com">dashboard.fedapay.com</a>.</li>
+    <li>Commencer avec les clés Sandbox.</li>
+    <li>Ajouter dans Render :</li>
+  </ol>
+  <pre>FEDAPAY_ENV=sandbox
+FEDAPAY_PUBLIC_KEY=cle_publique_sandbox
+FEDAPAY_SECRET_KEY=cle_secrete_sandbox
+FEDAPAY_WEBHOOK_SECRET=secret_du_webhook</pre>
+  <p>Tester création de paiement, callback, confirmation, remboursement et reversement. Passer à <code>FEDAPAY_ENV=production</code> seulement après validation du flux Sandbox.</p>
+  <p>Documentation : <a href="https://docs.fedapay.com">docs.fedapay.com</a>.</p>
+
+  <h2>7. Configurer l’email SMTP</h2>
+  <p>Exemple avec Brevo SMTP :</p>
+  <pre>MAIL_MAILER=smtp
+MAIL_HOST=smtp-relay.brevo.com
+MAIL_PORT=587
+MAIL_USERNAME=adresse-email
+MAIL_PASSWORD=cle-smtp
+MAIL_FROM_ADDRESS=no-reply@votre-domaine.com
+MAIL_FROM_NAME=ArtisanHub</pre>
+  <p>Vérifier le domaine expéditeur et les enregistrements SPF, DKIM et DMARC. Tester inscription, vérification, support, commande et remboursement.</p>
+
+  <h2>8. Configurer le stockage S3, R2 ou Spaces</h2>
+  <p>Render ne doit pas être utilisé comme stockage permanent des documents. Créer un bucket privé chez AWS S3, Cloudflare R2, DigitalOcean Spaces ou Wasabi.</p>
+  <pre>FILESYSTEM_DISK=s3
+AWS_ACCESS_KEY_ID=...
+AWS_SECRET_ACCESS_KEY=...
+AWS_DEFAULT_REGION=...
+AWS_BUCKET=artisanhub
+AWS_ENDPOINT=
+AWS_URL=
+AWS_USE_PATH_STYLE_ENDPOINT=false</pre>
+  <p>Pour Cloudflare R2, utiliser un endpoint de la forme :</p>
+  <pre>https://ACCOUNT_ID.r2.cloudflarestorage.com</pre>
+  <p>Tester upload et lecture contrôlée d’un document KYC et d’une preuve de livraison. Le bucket doit rester privé.</p>
+
+  <h2>9. Configurer WhatsApp, SMS et Sentry</h2>
+  <pre>WHATSAPP_DRIVER=production
+WHATSAPP_TOKEN=...
+WHATSAPP_PHONE_ID=...
+SMS_GATEWAY_URL=...
+SMS_GATEWAY_KEY=...
+
+SENTRY_LARAVEL_DSN=https://...
+SENTRY_ENVIRONMENT=production
+SENTRY_TRACES_SAMPLE_RATE=0.2</pre>
+  <p>Si aucun fournisseur réel n’est prêt, garder temporairement <code>WHATSAPP_DRIVER=log</code> et ne pas annoncer l’envoi réel aux utilisateurs.</p>
+
+  <h2>10. Configurer le worker</h2>
+  <p>Dans <code>artisanhub-worker</code>, reprendre les variables suivantes :</p>
+  <pre>APP_KEY
+APP_URL
+DB_CONNECTION
+DB_HOST
+DB_PORT
+DB_DATABASE
+DB_USERNAME
+DB_PASSWORD
+QUEUE_CONNECTION
+MAIL_*
+FEDAPAY_*
+AWS_*</pre>
+  <p>La commande du worker est :</p>
+  <pre>php artisan queue:work --sleep=3 --tries=3 --timeout=90</pre>
+  <p>Les logs doivent montrer que le worker démarre sans erreur et traite les jobs.</p>
+
+  <h2>11. Déploiement et migrations</h2>
+  <p>Le blueprint lance avant le démarrage du web service :</p>
+  <pre>php artisan migrate --force</pre>
+  <p>Le conteneur met ensuite en cache :</p>
+  <pre>php artisan storage:link --force
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache</pre>
+  <p>Ne jamais lancer <code>migrate:fresh</code> en production.</p>
+
+  <h2>12. Vérifications après déploiement</h2>
+  <pre>curl -i https://artisanhub-web.onrender.com/up
+curl -i https://artisanhub-web.onrender.com/health</pre>
+  <p>Contrôler dans Render :</p>
+  <ul>
+    <li>Le health check répond avec succès.</li>
+    <li>Les migrations sont terminées.</li>
+    <li>Le worker est en état <strong>Live</strong>.</li>
+    <li>Le cron s’exécute chaque minute.</li>
+    <li>Aucune erreur répétée n’apparaît dans les logs.</li>
+    <li>Les fichiers uploadés sont bien envoyés vers S3/R2.</li>
+  </ul>
+
+  <h2>13. Tests fonctionnels minimum</h2>
+  <ol>
+    <li>Créer un compte client.</li>
+    <li>Créer ou valider un compte artisan.</li>
+    <li>Créer une commande.</li>
+    <li>Tester le paiement FedaPay Sandbox.</li>
+    <li>Accepter et affecter la commande.</li>
+    <li>Tester une livraison et une preuve de livraison.</li>
+    <li>Ouvrir un ticket support.</li>
+    <li>Envoyer un email réel.</li>
+    <li>Tester un job asynchrone.</li>
+    <li>Tester les logs et une erreur contrôlée dans Sentry.</li>
+  </ol>
+
+  <h2>14. Dépannage courant</h2>
+  <table>
+    <tr><th>Problème</th><th>Vérification</th></tr>
+    <tr><td>Application en erreur 500</td><td>Vérifier APP_KEY, logs Render, APP_DEBUG=false et connexion DB.</td></tr>
+    <tr><td>Migrations échouées</td><td>Vérifier DB_CONNECTION=pgsql et les variables DB injectées.</td></tr>
+    <tr><td>Emails non envoyés</td><td>Vérifier MAIL_HOST, port 587, identifiants SMTP et domaine expéditeur.</td></tr>
+    <tr><td>Uploads perdus après redéploiement</td><td>Configurer FILESYSTEM_DISK=s3 et un bucket durable.</td></tr>
+    <tr><td>Jobs bloqués</td><td>Lire les logs du worker et exécuter queue:failed dans un shell Render.</td></tr>
+    <tr><td>Paiement refusé</td><td>Vérifier environnement Sandbox, clés, webhook et URL publique.</td></tr>
+  </table>
+
+  <h2>15. Checklist finale</h2>
+  <div class="success">
+    <ul>
+      <li><strong>APP_KEY</strong> configurée et non exposée.</li>
+      <li><strong>APP_DEBUG=false</strong>.</li>
+      <li>PostgreSQL créée et migrations terminées.</li>
+      <li>SMTP testé avec un vrai email.</li>
+      <li>FedaPay Sandbox testé.</li>
+      <li>S3/R2 testé pour les documents.</li>
+      <li>Worker et scheduler actifs.</li>
+      <li>Health check /up fonctionnel.</li>
+      <li>Logs et alertes vérifiés.</li>
+      <li>Backup PostgreSQL et restauration planifiée.</li>
+    </ul>
+  </div>
+
+  <h2>16. Liens utiles</h2>
+  <ul>
+    <li><a href="https://render.com/docs/blueprint-spec">Render Blueprint Specification</a></li>
+    <li><a href="https://render.com/docs/deploying-a-docker-container">Render Docker Deployment</a></li>
+    <li><a href="https://laravel.com/docs/12.x/deployment">Laravel Deployment</a></li>
+    <li><a href="https://docs.fedapay.com">FedaPay Documentation</a></li>
+    <li><a href="https://developers.cloudflare.com/r2/">Cloudflare R2</a></li>
+    <li><a href="https://developers.brevo.com/docs">Brevo API/SMTP</a></li>
+    <li><a href="https://sentry.io">Sentry</a></li>
+  </ul>
+</body>
+</html>
