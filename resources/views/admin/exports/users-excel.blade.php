@@ -1,0 +1,2 @@
+<meta charset="UTF-8"><table border="1"><tr><th>ID</th><th>Nom</th><th>Email</th><th>Rôle</th><th>Ville</th><th>Vérifié</th><th>Actif</th><th>Inscrit le</th></tr>
+@foreach($rows as $u)<tr><td>{{ $u->id }}</td><td>{{ $u->name }}</td><td>{{ $u->email }}</td><td>{{ $u->role }}</td><td>{{ $u->city }}</td><td>{{ $u->is_verified ? 'Oui' : 'Non' }}</td><td>{{ $u->is_active ? 'Oui' : 'Non' }}</td><td>{{ $u->created_at?->format('d/m/Y') }}</td></tr>@endforeach</table>

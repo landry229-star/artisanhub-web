@@ -1,0 +1,2 @@
+<meta charset="UTF-8"><table border="1"><tr><th>ID</th><th>Titre</th><th>Client</th><th>Artisan</th><th>Budget</th><th>Statut</th><th>Date</th></tr>
+@foreach($rows as $o)<tr><td>{{ $o->id }}</td><td>{{ $o->title }}</td><td>{{ $o->client?->name }}</td><td>{{ $o->artisan?->name }}</td><td>{{ $o->budget }}</td><td>{{ $o->statusLabel() }}</td><td>{{ $o->created_at?->format('d/m/Y') }}</td></tr>@endforeach</table>

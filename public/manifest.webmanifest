@@ -1,0 +1,17 @@
+{
+  "name": "ArtisanHub",
+  "short_name": "ArtisanHub",
+  "description": "Plateforme de mise en relation entre clients et artisans au Bénin.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FDFAF7",
+  "theme_color": "#C4622D",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "/images/hero-artisans.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

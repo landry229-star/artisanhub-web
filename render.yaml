@@ -1,0 +1,138 @@
+# Render blueprint for ArtisanHub.
+# Configure secrets and provider credentials in the Render dashboard.
+
+services:
+  - name: artisanhub-web
+    type: web
+    runtime: docker
+    plan: starter
+    branch: main
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    preDeployCommand: php artisan migrate --force
+    healthCheckPath: /up
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_KEY
+        sync: false
+      - key: APP_URL
+        sync: false
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        fromDatabase:
+          name: artisanhub-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: artisanhub-db
+          property: port
+      - key: DB_DATABASE
+        fromDatabase:
+          name: artisanhub-db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: artisanhub-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: artisanhub-db
+          property: password
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: QUEUE_CONNECTION
+        value: database
+      - key: SESSION_DRIVER
+        value: database
+      - key: CACHE_STORE
+        value: database
+      - key: FILESYSTEM_DISK
+        value: s3
+      - key: AWS_ACCESS_KEY_ID
+        sync: false
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false
+      - key: AWS_DEFAULT_REGION
+        sync: false
+      - key: AWS_BUCKET
+        sync: false
+      - key: MAIL_MAILER
+        value: smtp
+      - key: MAIL_HOST
+        sync: false
+      - key: MAIL_PORT
+        sync: false
+      - key: MAIL_USERNAME
+        sync: false
+      - key: MAIL_PASSWORD
+        sync: false
+      - key: MAIL_FROM_ADDRESS
+        sync: false
+      - key: FEDAPAY_PUBLIC_KEY
+        sync: false
+      - key: FEDAPAY_SECRET_KEY
+        sync: false
+
+  - name: artisanhub-worker
+    type: worker
+    runtime: docker
+    plan: starter
+    branch: main
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    dockerCommand: php artisan queue:work --sleep=3 --tries=3 --timeout=90
+    envVars:
+      - fromService:
+          type: web
+          name: artisanhub-web
+          envVarKey: APP_KEY
+      - fromService:
+          type: web
+          name: artisanhub-web
+          envVarKey: APP_URL
+      - fromService:
+          type: web
+          name: artisanhub-web
+          envVarKey: DB_CONNECTION
+      - fromService:
+          type: web
+          name: artisanhub-web
+          envVarKey: DB_HOST
+      - fromService:
+          type: web
+          name: artisanhub-web
+          envVarKey: DB_PORT
+      - fromService:
+          type: web
+          name: artisanhub-web
+          envVarKey: DB_DATABASE
+      - fromService:
+          type: web
+          name: artisanhub-web
+          envVarKey: DB_USERNAME
+      - fromService:
+          type: web
+          name: artisanhub-web
+          envVarKey: DB_PASSWORD
+      - key: QUEUE_CONNECTION
+        value: database
+
+  - name: artisan-scheduler
+    type: cron
+    runtime: docker
+    plan: starter
+    branch: main
+    schedule: "*/1 * * * *"
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    dockerCommand: php artisan schedule:run
+
+databases:
+  - name: artisanhub-db
+    plan: starter
+    databaseName: artisanhub
+    user: artisanhub

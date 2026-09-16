@@ -1,0 +1,13 @@
+User-agent: *
+Disallow: /connexion
+Disallow: /mot-de-passe/
+Disallow: /email/
+Disallow: /notifications/
+Disallow: /admin/
+Disallow: /artisan/dashboard
+Disallow: /client/dashboard
+Disallow: /livreur/
+Disallow: /kyc/
+Disallow: /paiement/
+
+Sitemap: https://artisanhub.bj/sitemap.xml

@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>ArtisanHub — Dossier de présentation</title>
+    <style>
+        @page { size: A4; margin: 16mm 17mm 17mm; }
+        :root { --clay:#b85c38; --ink:#2f241e; --muted:#6f625a; --sand:#f6efe8; --gold:#c8943d; }
+        * { box-sizing:border-box; }
+        body { margin:0; color:var(--ink); font-family:Arial, sans-serif; font-size:10.5pt; line-height:1.48; }
+        h1,h2,h3 { margin:0 0 10px; line-height:1.15; }
+        h1 { font-size:34pt; letter-spacing:-.8px; }
+        h2 { color:var(--clay); font-size:21pt; border-bottom:2px solid #ead8ca; padding-bottom:6px; }
+        h3 { font-size:12.5pt; color:var(--ink); }
+        p { margin:0 0 9px; }
+        ul { margin:5px 0 10px 19px; padding:0; }
+        li { margin:0 0 4px; }
+        .cover { min-height:255mm; display:flex; flex-direction:column; justify-content:space-between; padding:13mm 7mm 5mm; }
+        .brand { color:var(--clay); font-weight:bold; font-size:14pt; letter-spacing:.4px; }
+        .eyebrow { color:var(--gold); text-transform:uppercase; font-size:9pt; font-weight:bold; letter-spacing:2px; margin-bottom:14px; }
+        .cover h1 { max-width:145mm; margin-top:25mm; }
+        .lead { color:var(--muted); font-size:15pt; max-width:135mm; margin-top:12px; }
+        .cover-box { background:var(--sand); border-left:5px solid var(--clay); padding:14px 17px; max-width:145mm; font-size:12pt; }
+        .meta { color:var(--muted); font-size:9pt; }
+        .page { page-break-before:always; padding-top:3mm; }
+        .section-intro { color:var(--muted); font-size:11.5pt; margin-bottom:15px; }
+        .grid { display:grid; grid-template-columns:1fr 1fr; gap:11px; }
+        .card { background:var(--sand); border-radius:8px; padding:13px; }
+        .card strong { color:var(--clay); }
+        .number { color:var(--gold); font-weight:bold; font-size:19pt; float:left; margin-right:9px; line-height:1; }
+        .timeline { border-left:3px solid #ead8ca; padding-left:16px; }
+        .timeline-item { margin-bottom:15px; }
+        .timeline-item b { color:var(--clay); }
+        .table { width:100%; border-collapse:collapse; margin:10px 0 14px; }
+        .table th { background:var(--clay); color:white; text-align:left; padding:8px; }
+        .table td { border-bottom:1px solid #ead8ca; padding:8px; vertical-align:top; }
+        .quote { background:#fff8ef; border:1px solid #ecd7b4; padding:15px; font-size:12pt; font-style:italic; }
+        .ask { background:var(--clay); color:white; padding:17px; border-radius:8px; }
+        .ask h3 { color:white; }
+        .footer { margin-top:22px; color:var(--muted); font-size:8.5pt; border-top:1px solid #ead8ca; padding-top:7px; }
+        .small { font-size:9pt; color:var(--muted); }
+        .avoid-break { page-break-inside:avoid; }
+        html { scroll-behavior:smooth; }
+        body { background:#eee8e2; }
+        body:before { content:"ARTISANHUB  •  DOSSIER DE PRÉSENTATION"; display:block; position:sticky; top:0; z-index:5; padding:12px 24px; background:rgba(47,36,30,.96); color:#fff; font-size:11px; font-weight:bold; letter-spacing:1.2px; }
+        .cover,.page { width:min(100%, 210mm); margin:18px auto 0; background:#fff; box-shadow:0 10px 30px rgba(47,36,30,.12); padding-left:22mm; padding-right:22mm; }
+        .cover { margin-top:18px; }
+        .page { padding-top:18mm; padding-bottom:18mm; }
+        .page + .page { margin-top:18px; }
+        a { color:var(--clay); }
+        .table { font-size:10pt; }
+        @media print {
+            body { background:#fff; }
+            body:before { display:none; }
+            .cover,.page { width:auto; margin:0; box-shadow:none; }
+            .page + .page { margin-top:0; }
+        }
+        @media (max-width:700px) {
+            body { font-size:15px; overflow-x:hidden; }
+            body:before { position:static; padding:14px 16px; font-size:10px; }
+            .cover,.page { width:calc(100% - 24px); margin:12px auto 0; padding:28px 20px; }
+            .cover { min-height:calc(100vh - 24px); }
+            .cover h1 { margin-top:48px; font-size:34px; }
+            .eyebrow { margin-top:0; }
+            .lead { font-size:18px; }
+            .cover-box { max-width:100%; }
+            .grid { grid-template-columns:1fr; }
+            .table { display:table; width:100%; table-layout:fixed; }
+            .table th,.table td { min-width:0; overflow-wrap:anywhere; padding:7px 5px; }
+            h2 { font-size:27px; }
+        }
+    </style>
+</head>
+<body>
+<section class="cover">
+    <div>
+        <div class="brand">ARTISANHUB</div>
+        <div class="eyebrow" style="margin-top:55mm">Dossier de présentation &amp; demande d’accompagnement</div>
+        <h1>Le savoir-faire local mérite une vitrine numérique de référence.</h1>
+        <p class="lead">Une plateforme béninoise qui rapproche les clients, les artisans et les acteurs de confiance autour de commandes claires, sécurisées et traçables.</p>
+        <div class="cover-box" style="margin-top:25mm">
+            <strong>Notre ambition</strong><br>
+            Faire d’ArtisanHub l’infrastructure numérique qui rend le savoir-faire artisanal plus visible, plus accessible et plus rémunérateur.
+        </div>
+    </div>
+    <div class="meta">
+        Document de présentation — 10 septembre 2026<br>
+        Projet en développement · Bénin
+    </div>
+</section>
+
+<section class="page">
+    <h2>1. Résumé exécutif</h2>
+    <p class="section-intro">ArtisanHub répond à un besoin simple : permettre à un client de trouver le bon artisan, de formuler clairement son besoin, de recevoir une proposition et de suivre la réalisation dans un cadre de confiance.</p>
+    <div class="grid avoid-break">
+        <div class="card"><span class="number">01</span><strong>Visibilité</strong><br>Les artisans disposent d’un profil professionnel, de services et d’un portfolio.</div>
+        <div class="card"><span class="number">02</span><strong>Confiance</strong><br>Les demandes, devis, contrats, paiements et avis sont réunis dans un même parcours.</div>
+        <div class="card"><span class="number">03</span><strong>Emploi local</strong><br>La plateforme facilite l’accès à de nouvelles opportunités pour les artisans et les livreurs.</div>
+        <div class="card"><span class="number">04</span><strong>Traçabilité</strong><br>Chaque commande conserve son historique et ses documents, du besoin initial à la livraison.</div>
+    </div>
+    <p style="margin-top:16px">La première version opérationnelle comprend déjà les espaces Client, Artisan, Livreur et Administration, ainsi qu’un parcours de commande avec demande de devis, pièces jointes photographiques et contrat téléchargeable.</p>
+    <div class="quote">« Notre objectif n’est pas seulement de mettre des personnes en relation. Nous voulons professionnaliser l’expérience artisanale, protéger les parties et créer une valeur durable au niveau local. »</div>
+</section>
+
+<section class="page">
+    <h2>2. Le problème à résoudre</h2>
+    <p class="section-intro">Le secteur artisanal possède un potentiel considérable, mais sa rencontre avec la demande reste souvent informelle et difficile à structurer.</p>
+    <table class="table">
+        <tr><th>Constat</th><th>Conséquence</th><th>Réponse ArtisanHub</th></tr>
+        <tr><td>Artisans peu visibles en ligne</td><td>Les clients choisissent par hasard ou par recommandation limitée.</td><td>Profil, spécialité, zone, services et réalisations.</td></tr>
+        <tr><td>Demandes imprécises</td><td>Malentendus sur le prix, le délai et le résultat attendu.</td><td>Demande structurée avec description, budget, délai et photos.</td></tr>
+        <tr><td>Accords informels</td><td>Peu de preuves en cas de désaccord.</td><td>Devis négocié, contrat numérique et historique de commande.</td></tr>
+        <tr><td>Paiement et livraison peu coordonnés</td><td>Risque et perte de temps pour les deux parties.</td><td>Suivi de statut, paiement encadré et espace livreur.</td></tr>
+    </table>
+    <h3>Une opportunité de transformation</h3>
+    <p>La généralisation du téléphone mobile et des paiements numériques crée les conditions d’une plateforme locale, conçue pour les réalités du Bénin : recherche par ville, services de proximité, accompagnement humain et faible complexité d’usage.</p>
+</section>
+
+<section class="page">
+    <h2>3. La solution ArtisanHub</h2>
+    <div class="grid">
+        <div class="card"><h3>Pour le client</h3><ul><li>Rechercher par ville, spécialité et service.</li><li>Comparer les profils et réalisations.</li><li>Décrire son projet et joindre des photos.</li><li>Recevoir et négocier un devis.</li><li>Suivre la commande et télécharger le contrat.</li></ul></div>
+        <div class="card"><h3>Pour l’artisan</h3><ul><li>Créer une présence professionnelle.</li><li>Publier ses services et son portfolio.</li><li>Recevoir des demandes mieux qualifiées.</li><li>Répondre par un devis clair.</li><li>Gérer ses commandes, avis et revenus.</li></ul></div>
+        <div class="card"><h3>Pour le livreur</h3><ul><li>Recevoir des missions adaptées à sa zone.</li><li>Accepter, suivre et clôturer une livraison.</li><li>Communiquer avec les parties concernées.</li><li>Mettre à jour les étapes de livraison.</li></ul></div>
+        <div class="card"><h3>Pour l’écosystème</h3><ul><li>Modération et administration centralisées.</li><li>Exports et indicateurs de pilotage.</li><li>Historique des contrats et des litiges.</li><li>Base pour des programmes de formation et de financement.</li></ul></div>
+    </div>
+    <h3 style="margin-top:18px">Une différence concrète</h3>
+    <p>ArtisanHub ne se limite pas à un annuaire. La plateforme accompagne la relation commerciale de bout en bout : besoin, preuve visuelle, proposition, accord, exécution, livraison, paiement et évaluation.</p>
+</section>
+
+<section class="page">
+    <h2>4. État d’avancement</h2>
+    <p class="section-intro">Le projet dispose d’une base technique et fonctionnelle prête pour une phase pilote encadrée.</p>
+    <div class="timeline">
+        <div class="timeline-item"><b>Socle produit</b><br>Application Laravel structurée, authentification par rôles et espaces séparés pour les utilisateurs.</div>
+        <div class="timeline-item"><b>Marketplace locale</b><br>Profils artisans, catégories, services, portfolio, recherche et localisation par ville.</div>
+        <div class="timeline-item"><b>Parcours de commande</b><br>Commande, statuts, messagerie, devis négocié, pièces jointes photo et contrat sécurisé.</div>
+        <div class="timeline-item"><b>Opérations</b><br>Espace livreur, missions, suivi, notifications et administration des utilisateurs et commandes.</div>
+        <div class="timeline-item"><b>Qualité et sécurité</b><br>Tests automatisés, contrôles d’accès, stockage privé des documents et pipeline CI.</div>
+    </div>
+    <p class="small">Les indicateurs d’usage (artisans actifs, commandes, taux de conversion, revenus générés) devront être mesurés pendant le pilote plutôt que supposés à l’avance.</p>
+</section>
+
+<section class="page">
+    <h2>5. Impact attendu</h2>
+    <div class="grid">
+        <div class="card"><h3>Impact économique</h3><p>Augmenter la visibilité des artisans, améliorer la qualité des demandes et faciliter l’accès à des revenus réguliers.</p></div>
+        <div class="card"><h3>Impact social</h3><p>Valoriser les métiers manuels, encourager la professionnalisation et créer des opportunités pour les jeunes et les livreurs.</p></div>
+        <div class="card"><h3>Impact territorial</h3><p>Rendre les compétences locales plus accessibles dans les communes et favoriser la consommation de services de proximité.</p></div>
+        <div class="card"><h3>Impact numérique</h3><p>Proposer un outil simple, en français, évolutif vers les notifications mobiles, les langues locales et les paiements adaptés.</p></div>
+    </div>
+    <h3 style="margin-top:20px">Indicateurs proposés pour le pilote</h3>
+    <ul><li>Nombre d’artisans inscrits, actifs et accompagnés.</li><li>Nombre de demandes reçues et de commandes conclues.</li><li>Délai moyen entre demande et première réponse.</li><li>Taux de satisfaction client et artisan.</li><li>Montant de revenus générés pour les prestataires.</li><li>Part des commandes réalisées hors de Cotonou.</li></ul>
+</section>
+
+<section class="page">
+    <h2>6. Feuille de route d’accompagnement</h2>
+    <table class="table">
+        <tr><th>Phase</th><th>Objectif</th><th>Livrables</th></tr>
+        <tr><td><b>1. Pilote</b><br>0–3 mois</td><td>Tester le service avec un groupe d’artisans et de clients.</td><td>Onboarding, support, mesure des indicateurs et corrections produit.</td></tr>
+        <tr><td><b>2. Consolidation</b><br>3–6 mois</td><td>Améliorer la confiance et la conversion.</td><td>Avis vérifiés, notifications SMS/WhatsApp, paiements locaux et outils de médiation.</td></tr>
+        <tr><td><b>3. Extension</b><br>6–12 mois</td><td>Étendre la couverture et les partenariats.</td><td>Formation, partenariats institutionnels, financement et déploiement dans plusieurs communes.</td></tr>
+    </table>
+    <h3>Approche recommandée</h3>
+    <p>Commencer petit, mesurer chaque étape, écouter les utilisateurs et investir en priorité dans la confiance, l’accompagnement terrain et la fiabilité opérationnelle.</p>
+</section>
+
+<section class="page">
+    <h2>7. Demande d’accompagnement</h2>
+    <p class="section-intro">Nous sollicitons un accompagnement permettant de transformer une base technologique prometteuse en service réellement adopté par les artisans et les clients.</p>
+    <div class="ask">
+        <h3>Nous recherchons</h3>
+        <ul><li>Un appui stratégique et institutionnel.</li><li>Un accompagnement pour le pilote terrain.</li><li>Un soutien financier ou matériel pour le développement et l’hébergement.</li><li>Des mises en relation avec des organisations d’artisans, entreprises et partenaires publics.</li><li>Un mentorat sur le modèle économique, la communication et le passage à l’échelle.</li></ul>
+    </div>
+    <h3 style="margin-top:22px">Utilisation indicative de l’appui</h3>
+    <div class="grid">
+        <div class="card"><strong>Produit &amp; sécurité</strong><br>Stabilisation, hébergement, sauvegardes, paiements et protection des données.</div>
+        <div class="card"><strong>Terrain</strong><br>Identification, formation et accompagnement des premiers artisans et livreurs.</div>
+        <div class="card"><strong>Adoption</strong><br>Communication locale, démonstrations, support utilisateur et contenus pédagogiques.</div>
+        <div class="card"><strong>Évaluation</strong><br>Tableau de bord d’impact, retours utilisateurs et amélioration continue.</div>
+    </div>
+</section>
+
+<section class="page">
+    <h2>8. Conclusion</h2>
+    <p class="section-intro">ArtisanHub porte une ambition à la fois numérique, économique et sociale : donner aux talents locaux les outils de leur visibilité et de leur développement.</p>
+    <p>Le projet est suffisamment avancé pour être présenté, testé et amélioré avec un premier cercle de partenaires. L’accompagnement recherché permettra de passer d’une solution développée à une initiative mesurable, inclusive et durable.</p>
+    <div class="quote" style="margin-top:22px">ArtisanHub — Valoriser le savoir-faire. Faciliter la confiance. Créer des opportunités.</div>
+    <div style="margin-top:40px">
+        <h3>Contacts du porteur de projet</h3>
+        <p>Nom : ______________________________________________</p>
+        <p>Téléphone : __________________________________________</p>
+        <p>Email : ______________________________________________</p>
+        <p>Adresse / organisation : ________________________________</p>
+    </div>
+    <div class="footer">Document de présentation préparé pour une demande d’accompagnement — ArtisanHub, Bénin.</div>
+</section>
+</body>
+</html>

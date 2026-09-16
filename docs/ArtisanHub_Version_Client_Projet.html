@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>ArtisanHub - Version client / chef de projet</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height:1.55; margin:24px; color:#1f2937; }
+    h1 { font-size:28px; margin-bottom:8px; }
+    h2 { font-size:20px; border-bottom:1px solid #d1d5db; padding-bottom:6px; margin-top:28px; }
+    h3 { font-size:16px; margin-top:20px; }
+    ul { margin-top:8px; }
+    li { margin-bottom:8px; }
+    .meta { font-size:12px; color:#6b7280; margin-bottom:20px; }
+    .good { color:#166534; font-weight:bold; }
+    .warn { color:#92400e; font-weight:bold; }
+    .critical { color:#991b1b; font-weight:bold; }
+    table { width:100%; border-collapse:collapse; margin-top:12px; }
+    th, td { border:1px solid #d1d5db; padding:8px; vertical-align:top; }
+    th { background:#f3f4f6; text-align:left; }
+  </style>
+</head>
+<body>
+  <h1>ArtisanHub – Version client / chef de projet</h1>
+  <div class="meta">Date : 2026-09-10 | Résumé décisionnel</div>
+
+  <p>Le produit est aujourd’hui <span class="good">prêt pour un pilote interne ou fermé</span>, mais <span class="critical">pas encore prêt pour une mise en ligne publique massive</span>. Le cœur fonctionnel est solide, mais l’exploitation, la supervision et la validation des services externes restent les vrais points bloquants.</p>
+
+  <h2>1. État du projet</h2>
+  <ul>
+    <li><span class="good">Le cœur du produit est fonctionnel</span> : clients, artisans, livreurs, admin, paiements, KYC, preuves de livraison, support, litiges, reversements, suivi des gains.</li>
+    <li><span class="good">Les parcours critiques sont couverts</span> : commande, validation, livraison, paiement, remboursement, garantie, support, sécurité admin.</li>
+    <li><span class="warn">Le vrai risque n’est pas la fonctionnalité</span>, mais l’exploitation en production : monitoring, sauvegarde, intégrations externes, disponibilité, traçabilité.</li>
+  </ul>
+
+  <h2>2. Ce qui est déjà bien couvert</h2>
+  <ul>
+    <li>Profil client détaillé avec historique, préférences, adresses, GPS.</li>
+    <li>Support client persistant avec historique de tickets.</li>
+    <li>Commande répétée et re-commande rapide.</li>
+    <li>Reversement Mobile Money artisan.</li>
+    <li>Blocage serveur si le paiement n’est pas confirmé.</li>
+    <li>Modification des services artisan.</li>
+    <li>Solde et relevé PDF pour livreurs.</li>
+    <li>Journal d’audit admin pour la traçabilité des décisions sensibles.</li>
+    <li>Tableau de bord admin plus utile pour le pilotage.</li>
+  </ul>
+
+  <h2>3. Ce qui manque avant vraie ouverture</h2>
+
+  <h3>Priorité 1 – indispensable</h3>
+  <ul>
+    <li><span class="critical">Monitoring & alertes</span> : alertes sur commandes retardées, paiements ou reversements bloqués, erreurs FedaPay / SMTP / queue, logs centralisés.</li>
+    <li><span class="critical">Sauvegardes et restauration</span> : base de données et uploads, test de restauration, procédures de reprise.</li>
+    <li><span class="critical">Validation externe</span> : SMTP réel, SMS/WhatsApp, FedaPay valide, queue stable.</li>
+    <li><span class="critical">Sécurité admin</span> : journal complet des décisions administratives, traçabilité sur KYC, remboursements et réassignations.</li>
+  </ul>
+
+  <h3>Priorité 2 – recommandé avant élargissement</h3>
+  <ul>
+    <li>Support admin complet avec SLA, assignation, historique, tri et filtres.</li>
+    <li>Gestion avancée des litiges et pièces jointes.</li>
+    <li>Recherche admin rapide par ville, artisan, client, date et statut.</li>
+    <li>Accessibilité et test réel mobile.</li>
+  </ul>
+
+  <h3>Priorité 3 – améliorations post-pilote</h3>
+  <ul>
+    <li>Dashboard analytique plus fin : revenus, taux de litige, temps moyen de livraison.</li>
+    <li>Automatisations admin : relances, alertes, anomalies, exports structurés.</li>
+    <li>Historique des exports et nommage versionné des fichiers.</li>
+  </ul>
+
+  <h2>4. Plan de décision</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Situation</th>
+        <th>Décision</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Pilote interne / fermé</td>
+        <td><span class="good">OK</span></td>
+      </tr>
+      <tr>
+        <td>Usage public limité après validation de production</td>
+        <td><span class="warn">À condition de valider monitoring + backups + intégrations</span></td>
+      </tr>
+      <tr>
+        <td>Ouverture grand public</td>
+        <td><span class="critical">NON – avant les points de production</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>5. Conclusion</h2>
+  <p>Le produit est bien avancé et les usages métiers principaux sont présents. La condition clé pour passer à l’étape suivante est la mise en place d’une vraie infrastructure de supervision et de production, pas seulement l’ajout de nouvelles fonctionnalités.</p>
+  <p>En une phrase : <strong>le produit est prêt pour un pilote contrôlé, mais pas encore prêt pour une ouverture réelle sans validation de production.</strong></p>
+</body>
+</html>

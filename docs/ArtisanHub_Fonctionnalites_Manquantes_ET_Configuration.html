@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>ArtisanHub - Fonctionnalités manquantes et configuration</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: #1f2937;
+      margin: 24px;
+      line-height: 1.5;
+    }
+    h1 { font-size: 28px; color: #111827; margin-bottom: 8px; }
+    h2 { font-size: 20px; color: #111827; border-bottom: 1px solid #d1d5db; padding-bottom: 6px; margin-top: 24px; }
+    h3 { font-size: 16px; color: #374151; margin-top: 18px; }
+    ul { margin-top: 8px; margin-bottom: 8px; }
+    li { margin-bottom: 6px; }
+    .meta { font-size: 12px; color: #6b7280; margin-bottom: 20px; }
+    .badge { display: inline-block; background: #f3f4f6; border: 1px solid #d1d5db; border-radius: 8px; padding: 4px 8px; font-size: 11px; font-weight: bold; margin-right: 6px; }
+    .section { margin-top: 18px; }
+    .warning { color: #9a5b00; font-weight: bold; }
+    .critical { color: #991b1b; font-weight: bold; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid #d1d5db; padding: 8px; text-align: left; vertical-align: top; }
+    th { background: #f9fafb; }
+  </style>
+</head>
+<body>
+  <h1>ArtisanHub – Fonctionnalités manquantes et configuration à prévoir</h1>
+  <div class="meta">Date de génération : 2026-09-10 | État : checklist de pré-pilote / production</div>
+
+  <div class="section">
+    <h2>1. Fonctionnalités manquantes avant vraie mise en ligne</h2>
+
+    <h3>Priorité 1 – indispensable avant pilote réel</h3>
+    <ul>
+      <li><span class="critical">Monitoring et alertes</span> : alertes sur commandes retardées, paiements en échec, reversements / remboursements bloqués, erreurs FedaPay / SMTP / queue, health checks réels, logs centralisés.</li>
+      <li><span class="critical">Sauvegarde / restauration testée</span> : backup DB, backup fichiers uploads, restauration sur environnement de staging, plan de reprise validé.</li>
+      <li><span class="critical">Sécurité admin & journalisation</span> : traçabilité des validations KYC, suspensions, remboursements, réassignations, journal des actions sensibles.</li>
+      <li><span class="critical">Validation des services externes</span> : FedaPay Sandbox / vraie vérification du flux, SMTP réel, WhatsApp/SMS réel, queue worker actif et stable.</li>
+      <li><span class="critical">Tests admin ciblés</span> : validation KYC admin, suspension/réactivation, réassignation livreur, remboursement/reversement admin, export des données.</li>
+    </ul>
+
+    <h3>Priorité 2 – fort recommandé avant élargissement</h3>
+    <ul>
+      <li><span class="warning">Support admin complet</span> : tickets persistants avec statut, priorité, réponses, SLA, assignation interne, historique de conversations, filtres par utilisateur/commande/statut.</li>
+      <li><span class="warning">Gestion avancée des litiges</span> : motifs de litige, décision avec commentaire, suivi du remboursement / réouverture, pièces jointes ou preuve de livraison.</li>
+      <li><span class="warning">Recherche et filtres admin</span> : par ville, artisan, client, statut, date, export ciblé, recherche textuelle rapide.</li>
+      <li><span class="warning">UX mobile et accessibilité</span> : navigation clavier, contraste, taille de cible, test sur mobile réel.</li>
+    </ul>
+
+    <h3>Priorité 3 – bonne amélioration post-pilote</h3>
+    <ul>
+      <li><span class="badge">Dashboard</span> Revenus par ville / artisan / service, taux d’acceptation livreur, taux de litige / remboursement, temps moyen de livraison.</li>
+      <li><span class="badge">Automatisations admin</span> Alertes automatiques, relances, regroupement de commandes et anomalies, API d’export plus propre.</li>
+      <li><span class="badge">Exports</span> CSV/Excel/PDF structurés, fichiers nommés et versionnés, historique des exports.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>2. Fonctionnalités de produit déjà couvertes dans le code</h2>
+    <ul>
+      <li>Support client persistant et historique.</li>
+      <li>Commande répétée (recommander un ancien service).</li>
+      <li>Profil client détaillé : quartier, repère, GPS, préférences de notification.</li>
+      <li>Suivi de paiement et justificatifs PDF.</li>
+      <li>Reversement Mobile Money artisan.</li>
+      <li>Blocage serveur si le paiement n’est pas confirmé.</li>
+      <li>Modification des services artisan.</li>
+      <li>Solde et relevé PDF livreur.</li>
+      <li>Journal d’audit admin.</li>
+      <li>Motifs d’annulation / refus.</li>
+      <li>Alertes de commandes en retard.</li>
+      <li>Preuves de livraison par code ou signature.</li>
+      <li>Recherche géographique et gestion des livraisons.</li>
+      <li>Contrat, garantie, réclamation et suivis administratifs.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>3. Configuration à prévoir avant mise en ligne</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Domaine</th>
+          <th>Configuration nécessaire</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Serveur</td>
+          <td>HTTPS, domaine, reverse proxy, sécurité OS, utilisateurs non-root, variables d’env, logs, cron, supervisor, queue workers.</td>
+        </tr>
+        <tr>
+          <td>Base de données</td>
+          <td>MySQL/PostgreSQL production, backup automatique, point-in-time restore si nécessaire, connexion sécurisée, permissions minimales.</td>
+        </tr>
+        <tr>
+          <td>Fichiers</td>
+          <td>Storage object ou disque persistant pour uploads, KYC, preuves de remise, fichiers sécurisés, rotation et backup.</td>
+        </tr>
+        <tr>
+          <td>Email</td>
+          <td>SMTP réel, domaine vérifié, DKIM/SPF/DMARC, templates production, alertes sur échec d’envoi.</td>
+        </tr>
+        <tr>
+          <td>SMS / WhatsApp</td>
+          <td>Provider réel, numéros validés, quotas, journal, seuils de sécurité, gestion des erreurs et coûts.</td>
+        </tr>
+        <tr>
+          <td>Paiements</td>
+          <td>FedaPay prod ou sandbox réelle, clés API, endpoints de callback, webhooks, vérification des statuts, gestion des remboursements et reversements.</td>
+        </tr>
+        <tr>
+          <td>Monitoring</td>
+          <td>Sentry ou équivalent, logs centralisés, métriques de queue, uptime, alertes SMS/email/Slack, dashboard exploitation.</td>
+        </tr>
+        <tr>
+          <td>Queue / jobs</td>
+          <td>Supervisor, retry policy, dead-letter logs, jobs longs, délais, vérification du worker actif.</td>
+        </tr>
+        <tr>
+          <td>Security</td>
+          <td>rate limiting, CSRF, permissions admin, rôles, journal d’audit, secret rotation, HTTPS strict.</td>
+        </tr>
+        <tr>
+          <td>Mobile & accessibilité</td>
+          <td>Test sur vrais appareils, taille des boutons, contraste, navigation clavier, labels, mise en page responsive.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>4. Check-list finale de validation avant ouverture réelle</h2>
+    <ul>
+      <li>Vérifier monitoring, alertes et logs centralisés.</li>
+      <li>Tester backup / restore sur environnement de staging.</li>
+      <li>Valider FedaPay, SMTP, WhatsApp/SMS en production réelle.</li>
+      <li>Tester le flux KYC des profils multiples.</li>
+      <li>Valider les remboursements / reversements.</li>
+      <li>Contrôler les commissions et revenus.</li>
+      <li>Valider la répartition de la charge admin et les exports.</li>
+      <li>Tester le parcours mobile complet et l’accessibilité.</li>
+      <li>Documenter le runbook de reprise et de support.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>5. Conclusion</h2>
+    <p>Le cœur du produit est fonctionnel et les usages principaux sont couverts. La vraie difficulté restante n’est pas une fonctionnalité “métier absente” mais l’exploitation, la supervision et la validation des services tiers et de la production.</p>
+    <p>Le projet est <strong>prêt pour un pilote fermé</strong>, mais <strong>pas encore prêt pour un usage réel grand public</strong> sans la configuration opérationnelle et les validations décrites ci-dessus.</p>
+  </div>
+</body>
+</html>
